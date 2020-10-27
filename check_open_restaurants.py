@@ -20,7 +20,14 @@ weekdays = {
 days_listed = list(calendar.day_name)
 
 class WeekTimeRange(DateTimeRange):
-    def __contains__(self, x):
+    """Exists only to override the contains method of the DateTimeRange class"""
+
+    def __contains__(self, x) -> bool:
+        """
+        Checks if time X is in self's time range.
+        Parameters:
+        x: Bool
+        """
         if isinstance(x, DateTimeRange):
             return x.start_datetime.time() >= self.start_datetime.time() and x.end_datetime.time() <= self.end_datetime.time()
 
@@ -38,6 +45,11 @@ class Restaurant:
     opened_range: str
 
 def open_csv(name="restaurants.csv") -> []:
+    """
+    Reads restaurant data from the CSV and returns parsed data
+    Parameters:
+    name: String
+    """
     restaurants = []
     with open(name, newline='') as csvfile:
         next(csvfile)
@@ -88,7 +100,13 @@ def parse_restaurant(restaurant: []) -> Restaurant:
 
 
 
-def find_open_restaurants(csv_filename, search_datetime):
+def find_open_restaurants(csv_filename: "", search_datetime: datetime) -> []:
+    """
+    Returns all open restaurants during the given datetime.
+    Parameters:
+    csv_filename (string): Name of the CSV file
+    search_datetime (datetime): datetime object to check restaurants worktimes against
+    """
     day_to_search = search_datetime.strftime("%A")
     restaurants = open_csv()
     open_restaurants = []
